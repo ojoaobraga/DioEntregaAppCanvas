@@ -1,0 +1,3 @@
+function btnRibbon(){
+    Xrm.Navigation.openAlertDialog("Clicou no botão Ribbon Workbench");
+}

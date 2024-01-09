@@ -1,0 +1,28 @@
+function callAction(){
+    var jsonResponse = "Resposta não recebida";
+    Xrm.Utility.alertDialog("Entrou aqui - começo do código");
+    var req = new XMLHttpRequest();
+    var globalContext = Xrm.Utility.getGlobalContext();
+    var clientUrl = globalContext.getClientUrl();
+    req.open("POST", clientUrl + "/api/data/v9.2/curso_MyActionLP", false);
+    req.setRequestHeader("Accept", "application/json");
+    req.setRequestHeader("content-Type","application/json; charset=utf-8");
+    req.setRequestHeader("OData-MaxVersion","4.0");
+    req.setRequestHeader("OData-Version","4.0");
+    req.onreadystatechange = function(){
+        if(this.readyState === 4){
+            //req.onreadystatechange = null;
+            if(this.status === 200 || this.status === 204){
+                Xrm.Utility.alertDialog("Action Executada com sucesso");
+                result = JSON.parse(this.response);
+                console.log(result);
+                Xrm.Utility.alertDialog(result.MyOutputParameter);
+            }else{
+                var error = JSON.parse(this.response).error;
+                Xrm.Utility.alertDialog("Error na Action: "+error.message);
+            }
+        }
+        
+        Xrm.Utility.alertDialog("Não caiu no readyState");
+    }
+}
